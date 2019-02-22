@@ -8,9 +8,30 @@ $(document).ready(function() { // do this when the document is loaded
 
   //guessWord = "";
   for (var i = 0; i < correctWord.length; i++) {
-    guessWord += "_ ";
+    if (correctWord[i] == " ") {
+      guessWord += " ";
+    }
+    else {
+      guessWord += "_";
+    }
   }
-  $("#idCorrectWord").val(guessWord);
+
+  //now need to loop through guessWord and fix the spacing
+  var wordWithSpaces = "";
+  for (var i = 0; i < guessWord.length; i++) {
+    if (guessWord[i] == " ") {
+      wordWithSpaces += "  ";
+    }
+    else if (guessWord[i] == "_") {
+      wordWithSpaces += "_ ";
+    }
+    else {
+      wordWithSpaces += guessWord[i];
+    }
+  }
+  $("#idCorrectWord").val(wordWithSpaces);
+
+  //correctWord = correctWord.replace(/ /g, "");
 
   var letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
                   'U','V','W','X','Y','Z']
@@ -19,7 +40,7 @@ $(document).ready(function() { // do this when the document is loaded
   for (var i = 0; i < letters.length; i += 1) {
     $(".tableOfLetters").append('\
       <div class="col-2 col-sm-2 col-md-1 eachIndividualLetterDiv"> \
-        <button style="width:100%" class="btn btn-light eachIndividualLetter" id="' + letters[i] + '">' + letters[i] + '</button> \
+        <button style="width:100%; font-size:2vmin" class="btn btn-light eachIndividualLetter" id="' + letters[i] + '">' + letters[i] + '</button> \
       </div>');
   }
 
@@ -32,6 +53,9 @@ $(".container").on("click",".eachIndividualLetter", function() {
   if ($(this).hasClass('btn-light')) {
     checkLetter(id);
     $(this).removeClass("btn btn-light").addClass("btn btn-dark");
+  }
+  else {
+    alert ('Letter ' + id.toUpperCase() + ' was already used');
   }
 
 });
@@ -47,6 +71,9 @@ $(document).keypress(function(e) {
     char = char.toLowerCase();
     checkLetter(char);
   }
+  else {
+    alert ('Letter ' + char + ' was already used');
+  }
 
 });
 
@@ -57,10 +84,13 @@ function checkLetter(id) {
   var hasUserGuessedCorrectly = false;
 
   var temp = guessWord;
-  temp = temp.replace(/ /g, "");
+
   guessWord = "";
   for (var i = 0; i < correctWord.length; i++) {
-    if (temp[i] != "_") {
+    if (correctWord[i] == " ") {
+      guessWord += " ";
+    }
+    else if (temp[i] != "_" && temp[i] != " ") {
       guessWord += temp[i];
     }
     else if (correctWord[i] == id) {
@@ -68,7 +98,7 @@ function checkLetter(id) {
       hasUserGuessedCorrectly = true;
     }
     else if (correctWord[i] != id) {
-      guessWord += "_ ";
+      guessWord += "_";
     }
   }
 
@@ -78,7 +108,20 @@ function checkLetter(id) {
     $("#idLettersUsedTextArea").val(guessedLetters);
   }
 
-  $("#idCorrectWord").val(guessWord);
+  //now need to loop through guessWord and fix the spacing
+  var wordWithSpaces = "";
+  for (var i = 0; i < guessWord.length; i++) {
+    if (guessWord[i] == " ") {
+      wordWithSpaces += "  ";
+    }
+    else if (guessWord[i] == "_") {
+      wordWithSpaces += "_ ";
+    }
+    else {
+      wordWithSpaces += guessWord[i];
+    }
+  }
+  $("#idCorrectWord").val(wordWithSpaces);
 
   if (guessWord == correctWord) {
     alert ('You guessed correctly, you win!');
