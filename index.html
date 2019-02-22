@@ -4,13 +4,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <style type="text/css">
+
       .container {width:60%;margin-left:auto;margin-right:auto;text-align:center;border-style:solid}
 
       /* td, table {border-style:solid; text-align:center} */
 
       #idCorrectWord {text-align:center}
 
-      .eachIndividualLetter {border-style:solid;padding:5px;margin:2.7px}
+      .eachIndividualLetterDiv {border-style:solid;padding:5px;margin:2.7px}
+
+      #idLettersUsedTextArea {text-align:center; font-size:25; height:55%}
 
     </style>
   </head>
@@ -19,12 +22,14 @@
     <div class="container">
       <br />
 
-      <div class="row" id="idTableOfLetters">
-      </div>
+      <div class="row justify-content-center tableOfLetters">
 
+      </div>
+      <br />
+      
       <div class="row">
         <div class="col-sm-8 offset-sm-2 col-md-4 offset-md-4">
-          <input id="idCorrectWord" class="form-control" readonly="readonly" value="_ _ _ _ _ _">
+          <input id="idCorrectWord" class="form-control" readonly="readonly">
         </div>
       </div>
 
@@ -35,7 +40,7 @@
           <img src="set_up.png" alt="Basic hang man set up" style="width:100%;height:100%">
         </div>
         <div class="col-sm-3 col-md-2">
-          <textarea class="form-control" id="idLettersUsedTextArea" rows="15%"> </textarea>
+          <textarea class="form-control" id="idLettersUsedTextArea" readonly="readonly"> </textarea>
         </div>
       </div>
 
