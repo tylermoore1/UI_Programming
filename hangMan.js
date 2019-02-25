@@ -1,5 +1,11 @@
 var correctWord = "";
-var guessWord = "";;
+var guessWord = "";
+var countNumberOfWrongAttempts = 0;
+var isGameOver = false;
+
+
+var letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
+                'U','V','W','X','Y','Z']
 
 $(document).ready(function() { // do this when the document is loaded
 
@@ -33,9 +39,6 @@ $(document).ready(function() { // do this when the document is loaded
 
   //correctWord = correctWord.replace(/ /g, "");
 
-  var letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T',
-                  'U','V','W','X','Y','Z']
-
 
   for (var i = 0; i < letters.length; i += 1) {
     $(".tableOfLetters").append('\
@@ -54,7 +57,7 @@ $(".container").on("click",".eachIndividualLetter", function() {
     checkLetter(id);
     $(this).removeClass("btn btn-light").addClass("btn btn-dark");
   }
-  else {
+  else if (isGameOver == false) {
     alert ('Letter ' + id.toUpperCase() + ' was already used');
   }
 
@@ -71,7 +74,7 @@ $(document).keypress(function(e) {
     char = char.toLowerCase();
     checkLetter(char);
   }
-  else {
+  else if (isGameOver == false) {
     alert ('Letter ' + char + ' was already used');
   }
 
@@ -106,6 +109,23 @@ function checkLetter(id) {
     var guessedLetters = $("#idLettersUsedTextArea").val();
     guessedLetters += (id + "\n");
     $("#idLettersUsedTextArea").val(guessedLetters);
+
+    //now need to check which attempt user is on to see which picture to show
+    countNumberOfWrongAttempts += 1;
+    if (countNumberOfWrongAttempts < 7) {
+      $("#idHangManPicture").attr('src', 'hangman_' + countNumberOfWrongAttempts + '.png');
+      if (countNumberOfWrongAttempts == 6) {
+        isGameOver = true;
+        alert ('Game over, you lost');
+
+        for (var i = 0; i < letters.length; i++)
+        {
+          if ($("#" + letters[i]).hasClass('btn-light')) {
+            $("#" + letters[i]).removeClass("btn btn-light").addClass("btn btn-dark");
+          }
+        }
+      }
+    }
   }
 
   //now need to loop through guessWord and fix the spacing
